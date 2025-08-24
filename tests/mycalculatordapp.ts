@@ -48,7 +48,7 @@ describe("mycalculatordapp",()=>{
         assert.ok(account.result.eq(new anchor.BN(49)));
     })
 
-    it("perform subtraction operation on a calculator dapp", async ()=>{
+    it("perform multiply operation on a calculator dapp", async ()=>{
         await program.rpc.mul(new anchor.BN(12), new anchor.BN(3),{
             accounts:{
                 calculator: calculator.publicKey,
@@ -56,5 +56,16 @@ describe("mycalculatordapp",()=>{
         });
         const account = await program.account.calculator.fetch(calculator.publicKey);
         assert.ok(account.result.eq(new anchor.BN(36)));
+    })
+
+    it("perform division operation on a calculator dapp", async ()=>{
+        await program.rpc.divide(new anchor.BN(11), new anchor.BN(3),{
+            accounts:{
+                calculator: calculator.publicKey,
+            }
+        });
+        const account = await program.account.calculator.fetch(calculator.publicKey);
+        assert.ok(account.remainder.eq(new anchor.BN(2)));
+        assert.ok(account.result.eq(new anchor.BN(3)));
     })
 })
